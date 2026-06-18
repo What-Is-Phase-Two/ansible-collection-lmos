@@ -10,5 +10,5 @@
       register: show_ver
 
     - name: Print output
-      debug:
+      ansible.builtin.debug:
         var: show_ver.stdout_lines

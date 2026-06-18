@@ -13,7 +13,7 @@
       register: show_port
 
     - name: 1a. Print port table (4 ports, all native mode)
-      debug:
+      ansible.builtin.debug:
         var: show_port.stdout_lines
 
     - name: 2. Show session - confirm Con * signal on port 1/1
@@ -22,14 +22,14 @@
       register: show_session_top
 
     - name: 2a. Confirm port 1/1 has serial connection signal
-      assert:
+      ansible.builtin.assert:
         that:
           - "'1/1' in show_session_top.stdout"
         fail_msg: "Port 1/1 not found in session output"
         success_msg: "Port 1/1 confirmed present in session output"
 
     - name: 3. Confirm Con signal on port 1/1 (physical serial cable present)
-      assert:
+      ansible.builtin.assert:
         that:
           - "'1/1' in show_session_top.stdout"
         success_msg: "Serial connection present on port 1/1"
@@ -41,7 +41,7 @@
       register: show_mgmt
 
     - name: 4a. Print management server status
-      debug:
+      ansible.builtin.debug:
         var: show_mgmt.stdout_lines
 
     - name: 5. Show system ntp
@@ -50,7 +50,7 @@
       register: show_ntp
 
     - name: 5a. Print NTP config
-      debug:
+      ansible.builtin.debug:
         var: show_ntp.stdout_lines
 
     - name: 6. Show events (recent activity including serial port)
@@ -59,5 +59,5 @@
       register: show_events
 
     - name: 6a. Print events
-      debug:
+      ansible.builtin.debug:
         var: show_events.stdout_lines

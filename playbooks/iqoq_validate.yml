@@ -33,7 +33,7 @@
       register: facts_result
 
     - name: 1a. Assert LMOS version meets minimum
-      assert:
+      ansible.builtin.assert:
         that:
           - ansible_facts.lmos_facts.lmos_version is version(expected_lmos_version, '>=')
         fail_msg: >
@@ -50,7 +50,7 @@
           register: show_ver_out
 
         - name: Assert both power supplies on
-          assert:
+          ansible.builtin.assert:
             that:
               - "'Power Supply 1: On' in show_ver_out.stdout"
               - "'Power Supply 2: On' in show_ver_out.stdout"
@@ -63,7 +63,7 @@
       register: system_ip_out
 
     - name: 2a. Display system IP output
-      debug:
+      ansible.builtin.debug:
         var: system_ip_out.stdout_lines
 
     - name: 3. Check authentication configuration
@@ -72,7 +72,7 @@
       register: system_auth_out
 
     - name: 3a. Assert TACACS authentication configured
-      assert:
+      ansible.builtin.assert:
         that:
           - "'Authentication type: tacacs' in system_auth_out.stdout"
         fail_msg: "TACACS authentication not configured. Got: {{ system_auth_out.stdout }}"
@@ -84,14 +84,14 @@
       register: system_mgmt_out
 
     - name: 4a. Assert management server enabled
-      assert:
+      ansible.builtin.assert:
         that:
           - "'Use Management Server: yes' in system_mgmt_out.stdout"
         fail_msg: "Management server not enabled. Output: {{ system_mgmt_out.stdout }}"
         success_msg: "Management server enabled"
 
     - name: 4b. Assert UCC hostname matches expected
-      assert:
+      ansible.builtin.assert:
         that:
           - "expected_ucc_host in system_mgmt_out.stdout"
         fail_msg: "UCC hostname '{{ expected_ucc_host }}' not found in: {{ system_mgmt_out.stdout }}"
@@ -104,14 +104,14 @@
       register: system_ntp_out
 
     - name: 5a. Assert NTP is enabled
-      assert:
+      ansible.builtin.assert:
         that:
           - "'Use NTP: Yes' in system_ntp_out.stdout"
         fail_msg: "NTP not enabled. Output: {{ system_ntp_out.stdout }}"
         success_msg: "NTP enabled"
 
     - name: 5b. Assert NTP server present
-      assert:
+      ansible.builtin.assert:
         that:
           - "expected_ntp_server in system_ntp_out.stdout"
         fail_msg: "NTP server '{{ expected_ntp_server }}' not found in: {{ system_ntp_out.stdout }}"
@@ -124,14 +124,14 @@
       register: system_syslog_out
 
     - name: 6a. Assert syslog is enabled
-      assert:
+      ansible.builtin.assert:
         that:
           - "'Syslog enabled: yes' in system_syslog_out.stdout"
         fail_msg: "Syslog not enabled. Output: {{ system_syslog_out.stdout }}"
         success_msg: "Syslog enabled"
 
     - name: 6b. Assert syslog server present
-      assert:
+      ansible.builtin.assert:
         that:
           - "expected_syslog_server in system_syslog_out.stdout"
         fail_msg: "Syslog server '{{ expected_syslog_server }}' not found in: {{ system_syslog_out.stdout }}"
@@ -139,7 +139,7 @@
       when: expected_syslog_server != ""
 
     - name: IQOQ Summary
-      debug:
+      ansible.builtin.debug:
         msg:
           - "Device: {{ inventory_hostname }}"
           - "Hostname: {{ ansible_facts.lmos_facts.hostname }}"

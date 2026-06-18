@@ -1,5 +1,5 @@
 ---
-- name: lantronix.lmos live device tests - LM_LM4
+- name: Lantronix.lmos live device tests - LM_LM4
   hosts: all
   gather_facts: false
 
@@ -9,7 +9,7 @@
       register: facts_result
 
     - name: 1a. Print all gathered facts
-      debug:
+      ansible.builtin.debug:
         var: ansible_facts.lmos_facts
 
     - name: 2. Run show ver via cli_command
@@ -18,7 +18,7 @@
       register: show_ver
 
     - name: 2a. Print show ver output
-      debug:
+      ansible.builtin.debug:
         var: show_ver.stdout_lines
 
     - name: 3. Run show system ip
@@ -27,7 +27,7 @@
       register: show_sys_ip
 
     - name: 3a. Print show system ip
-      debug:
+      ansible.builtin.debug:
         var: show_sys_ip.stdout_lines
 
     - name: 4. Run show system authentication
@@ -36,7 +36,7 @@
       register: show_auth
 
     - name: 4a. Print show system authentication
-      debug:
+      ansible.builtin.debug:
         var: show_auth.stdout_lines
 
     - name: 5. Run show port 1 (serial port connected to Cisco C3560G)
@@ -45,7 +45,7 @@
       register: show_port1
 
     - name: 5a. Print show port 1
-      debug:
+      ansible.builtin.debug:
         var: show_port1.stdout_lines
 
     - name: 6. Run show session
@@ -54,5 +54,5 @@
       register: show_session
 
     - name: 6a. Print show session
-      debug:
+      ansible.builtin.debug:
         var: show_session.stdout_lines

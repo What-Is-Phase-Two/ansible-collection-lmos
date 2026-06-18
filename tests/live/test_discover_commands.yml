@@ -3,47 +3,52 @@
   hosts: all
   gather_facts: false
   tasks:
-    - name: show port settings
+    - name: Show port settings
       ansible.netcommon.cli_command:
         command: "show port settings\r\n"
       register: r1
       ignore_errors: true
 
-    - debug:
+    - name: Print show port settings output
+      ansible.builtin.debug:
         msg: "show port settings: {{ r1.stdout_lines | default(r1.msg) }}"
 
-    - name: show devices
+    - name: Show devices
       ansible.netcommon.cli_command:
         command: "show devices\r\n"
       register: r2
       ignore_errors: true
 
-    - debug:
+    - name: Print show devices output
+      ansible.builtin.debug:
         msg: "show devices: {{ r2.stdout_lines | default(r2.msg) }}"
 
-    - name: show console
+    - name: Show console
       ansible.netcommon.cli_command:
         command: "show console\r\n"
       register: r3
       ignore_errors: true
 
-    - debug:
+    - name: Print show console output
+      ansible.builtin.debug:
         msg: "show console: {{ r3.stdout_lines | default(r3.msg) }}"
 
-    - name: show portlog
+    - name: Show portlog
       ansible.netcommon.cli_command:
         command: "show portlog\r\n"
       register: r4
       ignore_errors: true
 
-    - debug:
+    - name: Print show portlog output
+      ansible.builtin.debug:
         msg: "show portlog: {{ r4.stdout_lines | default(r4.msg) }}"
 
-    - name: show serial
+    - name: Show serial
       ansible.netcommon.cli_command:
         command: "show serial\r\n"
       register: r5
       ignore_errors: true
 
-    - debug:
+    - name: Print show serial output
+      ansible.builtin.debug:
         msg: "show serial: {{ r5.stdout_lines | default(r5.msg) }}"
