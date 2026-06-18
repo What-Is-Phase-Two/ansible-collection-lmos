@@ -183,6 +183,16 @@ ansible-playbook -i tests/live/inventory.yml tests/live/test_lmos_live.yml
 ansible-playbook -i tests/live/inventory.yml tests/live/test_serial_port.yml
 ```
 
+## Support
+
+This collection is maintained by the Lantronix OOB product team.
+
+**Red Hat Automation Hub users:** Open a support request via the [collection page on Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/lantronix/lmos) using the "Create issue" link. This ensures your request is routed through the appropriate Red Hat support channels.
+
+**Community support:** Open an issue on [GitHub](https://github.com/What-Is-Phase-Two/ansible-collection-lmos/issues). Pull requests are welcome, please open an issue before submitting a PR for significant changes.
+
+**Product support:** Visit [https://www.lantronix.com/support/](https://www.lantronix.com/support/).
+
 ## License
 
 Apache-2.0. See [LICENSE](LICENSE).
