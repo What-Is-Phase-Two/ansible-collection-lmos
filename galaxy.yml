@@ -8,7 +8,7 @@ license:
 authors:
   - Lantronix Product Team <ansible@lantronix.com>
 repository: https://github.com/What-Is-Phase-Two/ansible-collection-lmos
-documentation: https://github.com/What-Is-Phase-Two/ansible-collection-lmos/tree/main/docs
+documentation: https://github.com/What-Is-Phase-Two/ansible-collection-lmos#readme
 homepage: https://www.lantronix.com
 issues: https://github.com/What-Is-Phase-Two/ansible-collection-lmos/issues
 tags:
