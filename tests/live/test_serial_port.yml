@@ -1,7 +1,7 @@
 ---
 # Live test: serial port 1/1 on LM_LM4
-# Note: port 1/1 has a Lantronix SLC console connected (not Cisco C3560G directly).
-# The Cisco C3560G is downstream from the SLC (SLC device port 2, ssh -p 3002 sysadmin@192.168.100.76).
+# Device on port 1/1: Cisco WS-C3560CG-8TC-S (core-rtr-01), IOS 15.2(2)E10
+# Console auto-authenticates (no login prompt). Access: port 1/1 -> terminal
 - name: Serial port 1/1 tests - LM_LM4
   hosts: all
   gather_facts: false
