@@ -141,6 +141,7 @@ def main():
         ver_output = connection.run_commands(["show ver\r\n"])[0]
     except Exception as exc:
         module.fail_json(msg="Failed to run 'show ver': %s" % str(exc))
+        return
 
     facts = _parse_show_ver(ver_output)
 
