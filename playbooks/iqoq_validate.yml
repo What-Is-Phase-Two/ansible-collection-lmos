@@ -1,0 +1,151 @@
+---
+# IQOQ (Installation/Operational Qualification) validation playbook for Lantronix LMOS devices.
+#
+# Usage:
+#   ansible-playbook -i <device-ip>, playbooks/iqoq_validate.yml \
+#     -e "expected_lmos_version=6.7 expected_ucc_host=uplogix-control-center.gtm.merck.com"
+#
+# Inventory variables required:
+#   ansible_user, ansible_ssh_pass (or ansible_ssh_private_key_file)
+#   ansible_port (default: 22)
+#
+# Extra vars (customize per site):
+#   expected_lmos_version   -- minimum version prefix, e.g. "6.7"
+#   expected_ucc_host       -- UCC hostname or IP expected in show system management
+#   expected_ntp_server     -- NTP server hostname or IP expected in show system ntp verbose
+#   expected_syslog_server  -- Syslog server IP expected in show system syslog-options
+
+- name: LMOS IQOQ Validation
+  hosts: all
+  gather_facts: false
+  vars:
+    ansible_connection: ansible.netcommon.network_cli
+    ansible_network_os: lantronix.lmos.lmos
+    ansible_become: false
+    expected_lmos_version: "6.7"
+    expected_ucc_host: ""
+    expected_ntp_server: ""
+    expected_syslog_server: ""
+
+  tasks:
+    - name: 1. Gather LMOS facts (show ver + show system ip)
+      lantronix.lmos.lmos_facts:
+      register: facts_result
+
+    - name: 1a. Assert LMOS version meets minimum
+      assert:
+        that:
+          - ansible_facts.lmos_facts.lmos_version is version(expected_lmos_version, '>=')
+        fail_msg: >
+          LMOS version {{ ansible_facts.lmos_facts.lmos_version }} does not meet
+          minimum {{ expected_lmos_version }}
+        success_msg: "LMOS version OK: {{ ansible_facts.lmos_facts.lmos_version }}"
+      when: expected_lmos_version != ""
+
+    - name: 1b. Assert dual power supplies present
+      block:
+        - name: Get show version for power supply check
+          ansible.netcommon.cli_command:
+            command: "show version\r\n"
+          register: show_ver_out
+
+        - name: Assert both power supplies on
+          assert:
+            that:
+              - "'Power Supply 1: On' in show_ver_out.stdout"
+              - "'Power Supply 2: On' in show_ver_out.stdout"
+            fail_msg: "Power supply check failed. Output: {{ show_ver_out.stdout }}"
+            success_msg: "Both power supplies are On"
+
+    - name: 2. Get system IP configuration
+      ansible.netcommon.cli_command:
+        command: "show system ip\r\n"
+      register: system_ip_out
+
+    - name: 2a. Display system IP output
+      debug:
+        var: system_ip_out.stdout_lines
+
+    - name: 3. Check authentication configuration
+      ansible.netcommon.cli_command:
+        command: "show system authentication\r\n"
+      register: system_auth_out
+
+    - name: 3a. Assert TACACS authentication configured
+      assert:
+        that:
+          - "'Authentication type: tacacs' in system_auth_out.stdout"
+        fail_msg: "TACACS authentication not configured. Got: {{ system_auth_out.stdout }}"
+        success_msg: "TACACS authentication confirmed"
+
+    - name: 4. Check UCC management server connection
+      ansible.netcommon.cli_command:
+        command: "show system management\r\n"
+      register: system_mgmt_out
+
+    - name: 4a. Assert management server enabled
+      assert:
+        that:
+          - "'Use Management Server: yes' in system_mgmt_out.stdout"
+        fail_msg: "Management server not enabled. Output: {{ system_mgmt_out.stdout }}"
+        success_msg: "Management server enabled"
+
+    - name: 4b. Assert UCC hostname matches expected
+      assert:
+        that:
+          - "expected_ucc_host in system_mgmt_out.stdout"
+        fail_msg: "UCC hostname '{{ expected_ucc_host }}' not found in: {{ system_mgmt_out.stdout }}"
+        success_msg: "UCC host confirmed: {{ expected_ucc_host }}"
+      when: expected_ucc_host != ""
+
+    - name: 5. Check NTP configuration
+      ansible.netcommon.cli_command:
+        command: "show system ntp verbose\r\n"
+      register: system_ntp_out
+
+    - name: 5a. Assert NTP is enabled
+      assert:
+        that:
+          - "'Use NTP: Yes' in system_ntp_out.stdout"
+        fail_msg: "NTP not enabled. Output: {{ system_ntp_out.stdout }}"
+        success_msg: "NTP enabled"
+
+    - name: 5b. Assert NTP server present
+      assert:
+        that:
+          - "expected_ntp_server in system_ntp_out.stdout"
+        fail_msg: "NTP server '{{ expected_ntp_server }}' not found in: {{ system_ntp_out.stdout }}"
+        success_msg: "NTP server confirmed: {{ expected_ntp_server }}"
+      when: expected_ntp_server != ""
+
+    - name: 6. Check syslog configuration
+      ansible.netcommon.cli_command:
+        command: "show system syslog-options\r\n"
+      register: system_syslog_out
+
+    - name: 6a. Assert syslog is enabled
+      assert:
+        that:
+          - "'Syslog enabled: yes' in system_syslog_out.stdout"
+        fail_msg: "Syslog not enabled. Output: {{ system_syslog_out.stdout }}"
+        success_msg: "Syslog enabled"
+
+    - name: 6b. Assert syslog server present
+      assert:
+        that:
+          - "expected_syslog_server in system_syslog_out.stdout"
+        fail_msg: "Syslog server '{{ expected_syslog_server }}' not found in: {{ system_syslog_out.stdout }}"
+        success_msg: "Syslog server confirmed: {{ expected_syslog_server }}"
+      when: expected_syslog_server != ""
+
+    - name: IQOQ Summary
+      debug:
+        msg:
+          - "Device: {{ inventory_hostname }}"
+          - "Hostname: {{ ansible_facts.lmos_facts.hostname }}"
+          - "Model: {{ ansible_facts.lmos_facts.model }}"
+          - "Serial: {{ ansible_facts.lmos_facts.serial_number }}"
+          - "LMOS version: {{ ansible_facts.lmos_facts.lmos_version }}"
+          - "LMOS build: {{ ansible_facts.lmos_facts.lmos_build }}"
+          - "Management IP: {{ ansible_facts.lmos_facts.management_ip }}"
+          - "Uptime: {{ ansible_facts.lmos_facts.uptime }}"
