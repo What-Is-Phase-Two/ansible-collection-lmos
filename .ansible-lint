@@ -1,0 +1,9 @@
+---
+# ansible-lint configuration for lantronix.lmos
+#
+# syntax-check[unknown-module] is expected for ansible.netcommon.cli_command tasks.
+# ansible.netcommon is a declared dependency in galaxy.yml. The warning appears
+# when ansible.netcommon is not installed in the linting environment, not because
+# of a real error in the collection.
+warn_list:
+  - syntax-check[unknown-module]

@@ -18,6 +18,8 @@
 - name: LMOS IQOQ Validation
   hosts: all
   gather_facts: false
+  collections:
+    - ansible.netcommon
   vars:
     ansible_connection: ansible.netcommon.network_cli
     ansible_network_os: lantronix.lmos.lmos
