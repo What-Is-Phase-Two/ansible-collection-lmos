@@ -1,0 +1,49 @@
+---
+- name: Discover LMOS port commands
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: show port settings
+      ansible.netcommon.cli_command:
+        command: "show port settings\r\n"
+      register: r1
+      ignore_errors: true
+
+    - debug:
+        msg: "show port settings: {{ r1.stdout_lines | default(r1.msg) }}"
+
+    - name: show devices
+      ansible.netcommon.cli_command:
+        command: "show devices\r\n"
+      register: r2
+      ignore_errors: true
+
+    - debug:
+        msg: "show devices: {{ r2.stdout_lines | default(r2.msg) }}"
+
+    - name: show console
+      ansible.netcommon.cli_command:
+        command: "show console\r\n"
+      register: r3
+      ignore_errors: true
+
+    - debug:
+        msg: "show console: {{ r3.stdout_lines | default(r3.msg) }}"
+
+    - name: show portlog
+      ansible.netcommon.cli_command:
+        command: "show portlog\r\n"
+      register: r4
+      ignore_errors: true
+
+    - debug:
+        msg: "show portlog: {{ r4.stdout_lines | default(r4.msg) }}"
+
+    - name: show serial
+      ansible.netcommon.cli_command:
+        command: "show serial\r\n"
+      register: r5
+      ignore_errors: true
+
+    - debug:
+        msg: "show serial: {{ r5.stdout_lines | default(r5.msg) }}"

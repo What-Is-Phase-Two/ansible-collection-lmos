@@ -1,0 +1,11 @@
+all:
+  hosts:
+    LM_LM4:
+      ansible_host: 192.168.100.154
+      ansible_user: ryan
+      ansible_password: "P@ssword123!"
+      ansible_port: 22
+      ansible_connection: ansible.netcommon.network_cli
+      ansible_network_os: lantronix.lmos.lmos
+      ansible_become: false
+      ansible_ssh_common_args: "-o StrictHostKeyChecking=no"

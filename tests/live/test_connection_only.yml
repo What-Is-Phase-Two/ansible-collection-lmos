@@ -1,0 +1,14 @@
+---
+- name: Test raw cli_command connection only
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: Run show ver via cli_command
+      ansible.netcommon.cli_command:
+        command: "show ver\r\n"
+      register: show_ver
+
+    - name: Print output
+      debug:
+        var: show_ver.stdout_lines

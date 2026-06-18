@@ -4,9 +4,14 @@ Ansible collection for Lantronix **LMOS** (Local Manager OS) devices, including 
 
 ## Requirements
 
-- Ansible Core >= 2.14
+- Ansible Core >= 2.14, < 2.20 (see note below)
 - `ansible.netcommon` >= 5.0.0 (`ansible-galaxy collection install ansible.netcommon`)
 - SSH access to LMOS devices on port 22
+
+> **Note: ansible-core 2.20 compatibility.** `ansible.netcommon` through 8.5.3 calls
+> `ActionBase._parse_returned_data()` with the pre-2.20 signature, which causes a
+> `TypeError` at runtime. Until `ansible.netcommon` ships a fix, use ansible-core 2.19.x.
+> Tested against ansible-core 2.19.10.
 
 ## Installation
 

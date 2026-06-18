@@ -1,0 +1,4 @@
+plugins/cliconf/lmos.py validate-modules:missing-gplv3-license
+plugins/cliconf/lmos.py import-3.12
+plugins/terminal/lmos.py import-3.12
+plugins/modules/lmos_facts.py validate-modules:missing-gplv3-license

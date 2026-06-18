@@ -1,0 +1,63 @@
+---
+# Live test: serial port 1/1 on LM_LM4
+# Note: port 1/1 has a Lantronix SLC console connected (not Cisco C3560G directly).
+# The Cisco C3560G is downstream from the SLC (SLC device port 2, ssh -p 3002 sysadmin@192.168.100.76).
+- name: Serial port 1/1 tests - LM_LM4
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: 1. Show all port status
+      ansible.netcommon.cli_command:
+        command: "show port\r\n"
+      register: show_port
+
+    - name: 1a. Print port table (4 ports, all native mode)
+      debug:
+        var: show_port.stdout_lines
+
+    - name: 2. Show session - confirm Con * signal on port 1/1
+      ansible.netcommon.cli_command:
+        command: "show session\r\n"
+      register: show_session_top
+
+    - name: 2a. Confirm port 1/1 has serial connection signal
+      assert:
+        that:
+          - "'1/1' in show_session_top.stdout"
+        fail_msg: "Port 1/1 not found in session output"
+        success_msg: "Port 1/1 confirmed present in session output"
+
+    - name: 3. Confirm Con signal on port 1/1 (physical serial cable present)
+      assert:
+        that:
+          - "'1/1' in show_session_top.stdout"
+        success_msg: "Serial connection present on port 1/1"
+        fail_msg: "No serial connection on port 1/1"
+
+    - name: 4. Show system management (UCC connection status)
+      ansible.netcommon.cli_command:
+        command: "show system management\r\n"
+      register: show_mgmt
+
+    - name: 4a. Print management server status
+      debug:
+        var: show_mgmt.stdout_lines
+
+    - name: 5. Show system ntp
+      ansible.netcommon.cli_command:
+        command: "show system ntp\r\n"
+      register: show_ntp
+
+    - name: 5a. Print NTP config
+      debug:
+        var: show_ntp.stdout_lines
+
+    - name: 6. Show events (recent activity including serial port)
+      ansible.netcommon.cli_command:
+        command: "show events\r\n"
+      register: show_events
+
+    - name: 6a. Print events
+      debug:
+        var: show_events.stdout_lines
