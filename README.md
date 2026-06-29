@@ -1,3 +1,6 @@
+> **This repository has been archived.** The project has moved to the official Lantronix organization:
+> **[github.com/Lantronix/ansible-collection-lmos](https://github.com/Lantronix/ansible-collection-lmos)**
+
 # lantronix.lmos, Ansible Collection
 
 Ansible collection for Lantronix **LMOS** (Local Manager OS) devices, including the Uplogix Local Manager product line. Provides SSH CLI connectivity without requiring `ansible_network_terminal_errors: ignore`.
