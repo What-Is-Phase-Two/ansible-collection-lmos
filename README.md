@@ -4,7 +4,7 @@ Ansible collection for Lantronix **LMOS** (Local Manager OS) devices, including 
 
 ## Requirements
 
-- Ansible Core >= 2.14, < 2.20 (see [Compatibility Note](#compatibility-note))
+- Ansible Core >= 2.16 (see [Compatibility Note](#compatibility-note))
 - `ansible.netcommon` >= 5.0.0
 - SSH access to LMOS devices on port 22
 
@@ -12,8 +12,7 @@ Ansible collection for Lantronix **LMOS** (Local Manager OS) devices, including 
 
 ### From Ansible Automation Hub (recommended)
 
-> **Note:** This collection is pending certification on Red Hat Ansible Automation Hub.
-> Once published, install with:
+> Install with:
 >
 > ```bash
 > ansible-galaxy collection install lantronix.lmos
@@ -25,7 +24,7 @@ Clone the repository into the required Ansible collections directory structure. 
 
 ```bash
 mkdir -p ~/ansible_collections/lantronix
-git clone https://github.com/What-Is-Phase-Two/ansible-collection-lmos \
+git clone https://github.com/Lantronix/ansible-collection-lmos \
     ~/ansible_collections/lantronix/lmos
 ```
 
@@ -157,7 +156,7 @@ This collection fixes the problem cleanly. The `lantronix.lmos.lmos` terminal pl
 
 `ansible.netcommon` through version 8.5.3 calls `ActionBase._parse_returned_data()` with the pre-2.20 signature, which raises a `TypeError` at runtime under ansible-core 2.20. Until `ansible.netcommon` ships a fix, use **ansible-core 2.19.x**.
 
-Tested against: ansible-core 2.19.10, ansible.netcommon 8.5.3, Python 3.12.
+Tested against: ansible-core 2.16+ through 2.19.x, ansible.netcommon 8.5.3, Python 3.12.
 
 ## Testing
 
@@ -189,7 +188,7 @@ This collection is maintained by the Lantronix OOB product team.
 
 **Red Hat Automation Hub users:** Open a support request via the [collection page on Automation Hub](https://console.redhat.com/ansible/automation-hub/repo/published/lantronix/lmos) using the "Create issue" link. This ensures your request is routed through the appropriate Red Hat support channels.
 
-**Community support:** Open an issue on [GitHub](https://github.com/What-Is-Phase-Two/ansible-collection-lmos/issues). Pull requests are welcome, please open an issue before submitting a PR for significant changes.
+**Community support:** Open an issue on [GitHub](https://github.com/Lantronix/ansible-collection-lmos/issues). Pull requests are welcome, please open an issue before submitting a PR for significant changes.
 
 **Product support:** Visit [https://www.lantronix.com/support/](https://www.lantronix.com/support/).
 

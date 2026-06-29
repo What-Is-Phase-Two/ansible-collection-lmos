@@ -1,16 +1,16 @@
 namespace: lantronix
 name: lmos
-version: 1.0.0
+version: 1.0.1
 readme: README.md
 description: Ansible collection for Lantronix LMOS (Local Manager OS) devices
 license:
   - Apache-2.0
 authors:
   - Lantronix Product Team <ansible@lantronix.com>
-repository: https://github.com/What-Is-Phase-Two/ansible-collection-lmos
-documentation: https://github.com/What-Is-Phase-Two/ansible-collection-lmos#readme
+repository: https://github.com/Lantronix/ansible-collection-lmos
+documentation: https://github.com/Lantronix/ansible-collection-lmos#readme
 homepage: https://www.lantronix.com
-issues: https://github.com/What-Is-Phase-Two/ansible-collection-lmos/issues
+issues: https://github.com/Lantronix/ansible-collection-lmos/issues
 tags:
   - networking
   - lantronix
